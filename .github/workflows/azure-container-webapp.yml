@@ -23,10 +23,10 @@ jobs:
       - name: Build and push container image to registry
         uses: docker/build-push-action@v2
         with:
-          context: src/docker-ci-cd/DockerTutorialCICD/
+          context: /
           push: true
-          tags: index.docker.io/${{ secrets.ContainerUsername }}/dockercicid:${{ github.sha }}
-          file: src/docker-ci-cd/DockerTutorialCICD/Dockerfile
+          tags: index.docker.io/${{ secrets.ContainerUsername }}/dockercicd:${{ github.sha }}
+          file: Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'micheleferracindockercicd'
+          app-name: 'docker-cicd'
           slot-name: 'production'
           publish-profile: ${{ secrets.PublishProfile }}
-          images: 'index.docker.io/${{ secrets.ContainerUsername }}/dockercicid:${{ github.sha }}'
+          images: 'index.docker.io/${{ secrets.ContainerUsername }}/dockercicd:${{ github.sha }}'
